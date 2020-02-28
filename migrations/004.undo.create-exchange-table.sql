@@ -1,0 +1,1 @@
+DROP TABLE exchange_day_datas;
