@@ -12,7 +12,9 @@ indexAPI.use(cors());
 
 indexAPI.getAsync('/', async (req, res) => {
   // return index data for params
-  res.json({});
+  // fetch(myurl/index?month=1,)
+  // POST {month: 1}
+  res.json({ index: [1], weightsByToken: [[1]], tokenIDs: [1] });
 });
 
 module.exports = indexAPI;
