@@ -1,5 +1,5 @@
 // timestamps table
-const db = require('./db');
+import db from './db.js';
 
 const readAllTimestamps = async () =>
   (
@@ -16,8 +16,4 @@ const createTimestamps = timestamps =>
 
 const truncateTimestamps = () => db('timestamps').delete();
 
-module.exports = {
-  readAllTimestamps,
-  createTimestamps,
-  truncateTimestamps
-};
+export { readAllTimestamps, createTimestamps, truncateTimestamps };

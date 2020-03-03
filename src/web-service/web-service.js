@@ -1,12 +1,13 @@
 // Express web server
 
-require('dotenv').config();
-const express = require('express'); // HTTP server
-const morgan = require('morgan'); // HTTP logging
-const helmet = require('helmet'); // secure HTTP headers
+import dotenv from 'dotenv';
+dotenv.config();
+import express from 'express'; // HTTP server
+import morgan from 'morgan'; // HTTP logging
+import helmet from 'helmet'; // secure HTTP headers
 
-const logger = require('../logger');
-const indexAPI = require('./index-api');
+import logger from '../logger.js';
+import indexAPI from './index-api.js';
 
 // add async middleware handlers
 const webService = express();
@@ -28,4 +29,4 @@ webService.use(function errorHandler(error, req, res, next) {
   res.status(500).json(response);
 });
 
-module.exports = webService;
+export default webService;

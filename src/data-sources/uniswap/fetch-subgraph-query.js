@@ -1,6 +1,6 @@
 // parse and dispatch GraphQL query to The Graph
 
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
 const fetchSubgraphQuery = async (subgraph, query) => {
   const strippedQuery = stripGraphQLQuery(query);
@@ -44,4 +44,4 @@ const stripGraphQLQuery = graphQLQuery =>
     .replace(/\s\./g, '.')
     .trim();
 
-module.exports = fetchSubgraphQuery;
+export default fetchSubgraphQuery;

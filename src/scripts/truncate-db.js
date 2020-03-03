@@ -1,7 +1,7 @@
-const { truncateDayDatas } = require('../db-service/exchange-data-service');
-const { truncateETH_USDprices } = require('../db-service/ethusd-service');
-const { truncateTokens } = require('../db-service/tokens-service');
-const { truncateTimestamps } = require('../db-service/timestamps-service');
+import { truncateDayDatas } from '../db-service/exchange-data-service.js';
+import { truncateETH_USDprices } from '../db-service/ethusd-service.js';
+import { truncateTokens } from '../db-service/tokens-service.js';
+import { truncateTimestamps } from '../db-service/timestamps-service.js';
 
 const truncateDB = async () => {
   console.log('Truncating db');

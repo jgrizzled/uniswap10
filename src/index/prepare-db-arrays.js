@@ -1,11 +1,9 @@
 // pull data from db and structure for timeseries analysis
 
-const { readAllTimestamps } = require('../db-service/timestamps-service');
-const { readAllTokens } = require('../db-service/tokens-service');
-const {
-  readDayDataByTimestamp
-} = require('../db-service/exchange-data-service');
-const { newMatrix } = require('../math/matrix');
+import { newMatrix } from 'portfolio-tools/src/math/matrix.js';
+import { readAllTimestamps } from '../db-service/timestamps-service.js';
+import { readAllTokens } from '../db-service/tokens-service.js';
+import { readDayDataByTimestamp } from '../db-service/exchange-data-service.js';
 
 const prepareDBarrays = async () => {
   // build timestamps array
@@ -42,4 +40,4 @@ const prepareDBarrays = async () => {
   ];
 };
 
-module.exports = prepareDBarrays;
+export default prepareDBarrays;

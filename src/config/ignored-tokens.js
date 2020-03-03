@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   // Broken tokens
   // https://github.com/Uniswap/uniswap-frontend/blob/beta/src/constants/index.js#L97
   '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',

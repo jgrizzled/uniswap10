@@ -1,19 +1,19 @@
 // process and add new exchangeDayData to db
 
-const {
+import {
   readAllTokens,
   createTokens,
   readTokenByExchangeAddress
-} = require('../../db-service/tokens-service');
-const {
+} from '../../db-service/tokens-service.js';
+import {
   readAllTimestamps,
   createTimestamps
-} = require('../../db-service/timestamps-service');
-const {
+} from '../../db-service/timestamps-service.js';
+import {
   readAllDayDatas,
   createDayDatas
-} = require('../../db-service/exchange-data-service');
-const { fetchExchangeTokens } = require('./uniswap-subgraph');
+} from '../../db-service/exchange-data-service.js';
+import { fetchExchangeTokens } from './uniswap-subgraph.js';
 
 const processExchangeData = async exchangeData => {
   let formattedData = formatExchangeData(exchangeData);
@@ -105,4 +105,4 @@ const formatExchangeData = exchangeData => {
   );
 };
 
-module.exports = processExchangeData;
+export default processExchangeData;

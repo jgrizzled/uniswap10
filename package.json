@@ -4,6 +4,7 @@
   "main": "src/server.js",
   "author": "jgrizzled <justin.greene5@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@awaitjs/express": "^0.4.0",
     "cors": "^2.8.5",
@@ -16,6 +17,8 @@
     "morgan": "^1.9.1",
     "node-fetch": "^2.6.0",
     "pg": "^7.18.2",
+    "portfolio-allocation": "^0.0.7",
+    "portfolio-tools": "jgrizzled/portfolio-tools",
     "winston": "^3.2.1"
   },
   "devDependencies": {
@@ -29,7 +32,7 @@
     "migrate": "postgrator --config postgrator-config.js",
     "populate": "node src/scripts/run-populate-db",
     "truncate": "node src/scripts/truncate-db",
-    "csv": "node src/scripts/index-to-csv",
+    "csv": "node src/scripts/index-csv",
     "start": "node src/server"
   }
 }

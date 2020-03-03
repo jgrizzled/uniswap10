@@ -1,5 +1,6 @@
-const knex = require('knex');
-require('dotenv').config();
+import knex from 'knex';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const db = knex({
   client: 'pg',
@@ -11,4 +12,4 @@ const db = knex({
   bigNumberStrings: false
 });
 
-module.exports = db;
+export default db;

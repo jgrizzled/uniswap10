@@ -1,10 +1,10 @@
 // process and add new ETH/USD data to db
 
-const {
+import {
   readAllETH_USDprices,
   createETH_USDprices
-} = require('../../db-service/ethusd-service.js');
-const { readAllTimestamps } = require('../../db-service/timestamps-service');
+} from '../../db-service/ethusd-service.js';
+import { readAllTimestamps } from '../../db-service/timestamps-service.js';
 
 const processETH_USDdata = async data => {
   // make sure data is sorted by timestamp asc
@@ -39,4 +39,4 @@ const processETH_USDdata = async data => {
   await createETH_USDprices(newPrices);
 };
 
-module.exports = processETH_USDdata;
+export default processETH_USDdata;

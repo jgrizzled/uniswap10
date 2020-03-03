@@ -1,5 +1,5 @@
-const fetchSubgraphQuery = require('./fetch-subgraph-query');
-const ignoredTokens = require('../../config/ignored-tokens');
+import fetchSubgraphQuery from './fetch-subgraph-query.js';
+import ignoredTokens from '../../config/ignored-tokens.js';
 
 const uniswapSubgraph = 'graphprotocol/uniswap';
 const fetchUniswapSubgraph = query =>
@@ -84,7 +84,4 @@ const fetchExchangeTokens = async exchangeAddrs => {
   return tokens;
 };
 
-module.exports = {
-  fetchExchangeDataAfterDate,
-  fetchExchangeTokens
-};
+export { fetchExchangeDataAfterDate, fetchExchangeTokens };

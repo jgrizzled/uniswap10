@@ -1,8 +1,9 @@
 // Crypto exchange rate fetchers for AlphaVantage.co
 
-const fetch = require('node-fetch');
-const moment = require('moment');
-require('dotenv').config();
+import fetch from 'node-fetch';
+import moment from 'moment';
+import dotenv from 'dotenv';
+dotenv.config();
 const key = process.env.AV_API_KEY;
 
 // Fetch an exchange rate timeseries for a pair, going back a few years
@@ -47,4 +48,4 @@ const fetchTimeseries = async (denomSymbol, quoteSymbol) => {
   return ratesData;
 };
 
-module.exports = fetchTimeseries;
+export default fetchTimeseries;

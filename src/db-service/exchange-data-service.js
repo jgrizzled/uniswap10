@@ -1,5 +1,5 @@
 // exchange_day_datas table
-const db = require('./db');
+import db from './db.js';
 
 const createDayDatas = dayDatas =>
   db.batchInsert(
@@ -51,7 +51,7 @@ const readDayDataByTimestamp = async timestamp => {
 
 const truncateDayDatas = () => db.truncate('exchange_day_datas');
 
-module.exports = {
+export {
   createDayDatas,
   readAllDayDatas,
   readDayDataByTokenID,

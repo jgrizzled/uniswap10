@@ -1,10 +1,10 @@
 // router for folders endpoint
 
-const express = require('express');
-const cors = require('cors');
-const { addAsync } = require('@awaitjs/express');
-
-const logger = require('../logger');
+import express from 'express';
+import cors from 'cors';
+import ajs from '@awaitjs/express';
+const { addAsync } = ajs;
+import logger from '../logger.js';
 
 const indexAPI = addAsync(express.Router());
 
@@ -17,4 +17,4 @@ indexAPI.getAsync('/', async (req, res) => {
   res.json({ index: [1], weightsByToken: [[1]], tokenIDs: [1] });
 });
 
-module.exports = indexAPI;
+export default indexAPI;

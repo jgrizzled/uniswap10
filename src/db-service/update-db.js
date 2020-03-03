@@ -1,11 +1,9 @@
 // fetch remote data and process new items
 
-const {
-  fetchExchangeDataAfterDate
-} = require('../data-sources/uniswap/uniswap-subgraph');
-const fetchTimeseries = require('../data-sources/alpha-vantage/fetch-timeseries');
-const processExchangeData = require('../data-sources/uniswap/process-exchange-data');
-const processETH_USDdata = require('../data-sources/alpha-vantage/process-ethusd-data');
+import { fetchExchangeDataAfterDate } from '../data-sources/uniswap/uniswap-subgraph.js';
+import fetchTimeseries from '../data-sources/alpha-vantage/fetch-timeseries.js';
+import processExchangeData from '../data-sources/uniswap/process-exchange-data.js';
+import processETH_USDdata from '../data-sources/alpha-vantage/process-ethusd-data.js';
 
 const updateDB = async lastTimestamp => {
   console.log('Fetching exchangeDayDatas');
@@ -17,4 +15,4 @@ const updateDB = async lastTimestamp => {
   console.log(`Got ${ETH_USDdata.length} days`);
 };
 
-module.exports = updateDB;
+export default updateDB;

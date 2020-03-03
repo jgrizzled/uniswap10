@@ -1,9 +1,10 @@
 // App server
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-const webService = require('./web-service/web-service');
-const startDBupdater = require('./db-service/update-scheduler');
-const logger = require('./logger');
+import webService from './web-service/web-service.js';
+import startDBupdater from './db-service/update-scheduler.js';
+import logger from './logger.js';
 
 webService.listen(process.env.PORT || 8000, () => {
   logger.info('Web server is listening on port ' + process.env.PORT);

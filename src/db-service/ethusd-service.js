@@ -1,5 +1,5 @@
 // eth_usd_prices table
-const db = require('./db');
+import db from './db.js';
 
 const createETH_USDprices = prices =>
   db.batchInsert(
@@ -19,8 +19,4 @@ const readAllETH_USDprices = async () =>
 
 const truncateETH_USDprices = () => db.truncate('eth_usd_prices');
 
-module.exports = {
-  createETH_USDprices,
-  readAllETH_USDprices,
-  truncateETH_USDprices
-};
+export { createETH_USDprices, readAllETH_USDprices, truncateETH_USDprices };

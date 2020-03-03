@@ -1,5 +1,5 @@
 // tokens table
-const db = require('./db');
+import db from './db.js';
 
 const createTokens = tokens =>
   db('tokens')
@@ -32,7 +32,7 @@ const truncateTokens = async () => {
   return db.raw('ALTER SEQUENCE tokens_id_seq RESTART WITH 1');
 };
 
-module.exports = {
+export {
   createTokens,
   readTokenByID,
   readTokenByExchangeAddress,

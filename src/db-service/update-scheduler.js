@@ -1,8 +1,8 @@
-const { readAllTimestamps } = require('./timestamps-service');
-const moment = require('moment');
+import { readAllTimestamps } from './timestamps-service.js';
+import moment from 'moment';
 
-const updateDB = require('./update-db');
-const logger = require('../logger');
+import updateDB from './update-db.js';
+import logger from '../logger.js';
 
 const startDBupdater = async () => {
   // get most recent date
@@ -53,4 +53,4 @@ const recurringUpdate = () => {
   setTimeout(recurringUpdate, timeout);
 };
 
-module.exports = startDBupdater;
+export default startDBupdater;
