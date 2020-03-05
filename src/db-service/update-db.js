@@ -1,12 +1,14 @@
 // fetch remote data and process new items
 
+import moment from 'moment';
 import { fetchExchangeDataAfterDate } from '../data-sources/uniswap/uniswap-subgraph.js';
 import fetchTimeseries from '../data-sources/alpha-vantage/fetch-timeseries.js';
 import processExchangeData from '../data-sources/uniswap/process-exchange-data.js';
 import processETH_USDdata from '../data-sources/alpha-vantage/process-ethusd-data.js';
+import { readAllTimestamps } from '../db-service/timestamps-service.js';
 import logger from '../logger.js';
 
-const updateDB = async lastTimestamp => {
+const updateDB = async latestTimestamp => {
   // get most recent date
   if (!latestTimestamp)
     latestTimestamp = (await readAllTimestamps())
