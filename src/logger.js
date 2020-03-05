@@ -14,10 +14,7 @@ const displayStack = winston.format(info => {
 
 const logger = winston.createLogger({
   level: 'info',
-  format: winston.format.combine(
-    winston.format.errors({ stack: true }),
-    winston.format.timestamp()
-  ),
+  format: winston.format.combine(winston.format.errors({ stack: true })),
   transports: [
     new winston.transports.Console({
       format: winston.format.combine(displayStack(), winston.format.simple())
