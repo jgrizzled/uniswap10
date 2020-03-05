@@ -31,9 +31,9 @@
   },
   "scripts": {
     "migrate": "postgrator --config postgrator-config.cjs",
-    "update-db": "node src/scripts/run-update-db",
-    "truncate": "node src/scripts/truncate-db",
-    "csv": "node src/scripts/index-csv",
+    "update-db": "node --experimental-modules src/scripts/run-update-db",
+    "truncate": "node --experimental-modules src/scripts/truncate-db",
+    "csv": "node --experimental-modules  src/scripts/index-csv",
     "start": "node --experimental-modules src/server",
     "dev": "nodemon src/server",
     "predeploy": "yarn audit && yarn migrate:production",
