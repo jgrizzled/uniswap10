@@ -83,7 +83,7 @@ const processExchangeData = async exchangeData => {
         if (!match) dedupedNewTokens.push(t);
         else {
           logger.info(
-            `merging new tokens - old: ${match.name} ${match.address} new: ${tokens[i].name} ${tokens[i].address}`
+            `merging new tokens - old: ${match.name} ${match.address} new: ${t.name} ${t.address}`
           );
           logger.info('Assuming same new tokens', match, t);
           match.address = t.address;
