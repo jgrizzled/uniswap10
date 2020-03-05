@@ -34,7 +34,7 @@
     "update-db": "node src/scripts/run-update-db",
     "truncate": "node src/scripts/truncate-db",
     "csv": "node src/scripts/index-csv",
-    "start": "pm2-runtime start ecosystem.config.cjs --env production",
+    "start": "node src/server",
     "dev": "nodemon src/server",
     "predeploy": "yarn audit && yarn migrate:production",
     "deploy": "git push heroku master",
