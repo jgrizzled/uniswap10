@@ -12,7 +12,7 @@ const indexAPI = addAsync(express.Router());
 
 indexAPI.use(cors());
 
-indexAPI.getAsync('/index', async (req, res) => {
+indexAPI.getAsync('/index', cors(), async (req, res) => {
   logger.info('calculating index');
   // return index data for params
   // fetch(myurl/index?month=1,)
