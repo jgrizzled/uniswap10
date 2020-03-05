@@ -5,7 +5,6 @@ dotenv.config();
 import express from 'express'; // HTTP server
 import morgan from 'morgan'; // HTTP logging
 import helmet from 'helmet'; // secure HTTP headers
-import cors from 'cors';
 
 import logger from '../logger.js';
 import indexAPI from './index-api.js';
@@ -18,7 +17,6 @@ const morganSetting = process.env.NODE_ENV === 'production' ? 'tiny' : 'common';
 webService.use(morgan(morganSetting));
 
 webService.use(helmet());
-webService.use(cors());
 
 webService.use('/api', indexAPI);
 
