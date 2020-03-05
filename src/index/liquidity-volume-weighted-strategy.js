@@ -93,7 +93,7 @@ const validateOptions = (options, pricesByAsset) => {
   if (
     typeof options.period !== 'number' ||
     options.period < 2 ||
-    options.period >= pricesByAsset.length
+    options.period >= pricesByAsset[0].length
   )
     throw new Error('invalid period ' + options.period);
 

@@ -1,18 +1,21 @@
 import fetchSubgraphQuery from './fetch-subgraph-query.js';
 import ignoredTokens from '../../config/ignored-tokens.js';
+import logger from '../../logger.js';
 
 const uniswapSubgraph = 'graphprotocol/uniswap';
 const fetchUniswapSubgraph = query =>
   fetchSubgraphQuery(uniswapSubgraph, query);
 
-const buildExchangeLookupQuery = addresses =>
-  `{
+const fetchExchangeIDsByTokens = async addresses => {
+  const query = `{
     exchanges(first: 1000, where:{tokenAddress_in: ${JSON.stringify(
       addresses
     )}}) {
       id
     }
   }`;
+  return (await fetchUniswapSubgraph(query)).exchanges.map(e => e.id);
+};
 
 const buildExchangeDataQuery = (date, ignoredExchanges, skip = 0) =>
   `{
@@ -24,8 +27,9 @@ const buildExchangeDataQuery = (date, ignoredExchanges, skip = 0) =>
         where: {
           date_gt: ${date},
           exchangeAddress_not_in: 
-            ${JSON.stringify(ignoredExchanges)}
-          
+            ${JSON.stringify(ignoredExchanges)},
+          ethVolume_gte: 100,
+          ethBalance_gte: 100
         }) {
           timestamp: date
           exchangeAddress
@@ -49,21 +53,19 @@ const buildExchangeTokensQuery = addrs => {
 
 const fetchExchangeDataAfterDate = async date => {
   // get ignored addresses
-  const ignoreQuery = buildExchangeLookupQuery(ignoredTokens);
-  const ignoredExchanges = await fetchUniswapSubgraph(ignoreQuery);
-  const ignoredAddrs = ignoredExchanges.exchanges.map(e => e.id);
+  const ignoredExAddrs = await fetchExchangeIDsByTokens(ignoredTokens);
 
   let fetchedExchangeDayDatas = [];
   let skip = 0;
   const exchangeDayDatas = [];
   do {
-    const query = buildExchangeDataQuery(date, ignoredAddrs, skip);
+    const query = buildExchangeDataQuery(date, ignoredExAddrs, skip);
     fetchedExchangeDayDatas = (await fetchUniswapSubgraph(query))
       .exchangeDayDatas;
 
     exchangeDayDatas.push(...fetchedExchangeDayDatas);
 
-    console.log(
+    logger.info(
       `Fetched ${fetchedExchangeDayDatas.length} exchangeDayDatas, total ${exchangeDayDatas.length}`
     );
 
@@ -80,7 +82,7 @@ const fetchExchangeTokens = async exchangeAddrs => {
     ...data[a.substring(1)],
     exchangeAddress: a
   }));
-  console.log(`Fetched ${tokens.length} tokens`);
+  logger.info(`Fetched ${tokens.length} tokens`);
   return tokens;
 };
 

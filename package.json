@@ -18,7 +18,7 @@
     "node-fetch": "^2.6.0",
     "pg": "^7.18.2",
     "portfolio-allocation": "^0.0.7",
-    "portfolio-tools": "jgrizzled/portfolio-tools",
+    "portfolio-tools": "desert-defi/portfolio-tools",
     "winston": "^3.2.1"
   },
   "devDependencies": {
@@ -29,10 +29,14 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "migrate": "postgrator --config postgrator-config.js",
-    "populate": "node src/scripts/run-populate-db",
+    "migrate": "postgrator --config postgrator-config.cjs",
+    "update-db": "node src/scripts/run-update-db",
     "truncate": "node src/scripts/truncate-db",
     "csv": "node src/scripts/index-csv",
-    "start": "node src/server"
+    "start": "node src/server",
+    "dev": "nodemon src/server",
+    "predeploy": "yarn audit && yarn migrate:production",
+    "deploy": "git push heroku master",
+    "migrate:production": "env SSL=true DATABASE_URL=$(heroku config:get DATABASE_URL) yarn migrate"
   }
 }

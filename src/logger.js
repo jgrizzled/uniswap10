@@ -7,6 +7,7 @@ const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
     winston.format.errors({ stack: true }),
+    winston.format.timestamp(),
     winston.format.json()
   ),
   transports: [new winston.transports.File({ filename: 'info.log' })]
@@ -16,8 +17,9 @@ const logger = winston.createLogger({
 const displayStack = winston.format(info => {
   if (info.stack) {
     info.message = info.stack;
-    info.stack = undefined;
+    delete info.stack;
   }
+  delete info.timestamp;
   return info;
 });
 

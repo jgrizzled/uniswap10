@@ -1,9 +1,11 @@
 // calculate index returns with db data
 
+import moment from 'moment';
 import { Simulation } from 'portfolio-tools';
 import LVWStrategy from './liquidity-volume-weighted-strategy.js';
 import prepareDBarrays from './prepare-db-arrays.js';
 import { readAllETH_USDprices } from '../db-service/ethusd-service.js';
+import { readTokenByID } from '../db-service/tokens-service.js';
 import {
   calcReturns,
   calcTotalReturns
@@ -68,11 +70,25 @@ export default async function calcIndex(options) {
   const indexETH = calcTotalReturns(returns);
   const indexUSD = calcTotalReturns(returnsUSD);
 
+  // format dates
+  const dates = timestamps.map(t => moment.unix(t).format('MM/DD/YYYY'));
+
+  // build token symbol string array
+  const tokens = [];
+  for (const id of filteredTokenIDs) {
+    const token = await readTokenByID(id);
+    tokens.push({
+      name: token.name,
+      symbol: token.symbol,
+      address: token.address
+    });
+  }
+
   return {
     indexETH,
     indexUSD,
-    timestamps,
-    tokenIDs: filteredTokenIDs,
+    dates,
+    tokens,
     weightsByAsset
   };
 }

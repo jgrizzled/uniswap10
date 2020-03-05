@@ -2432,9 +2432,9 @@ portfolio-allocation@^0.0.7:
   dependencies:
     request "^2.81.0"
 
-portfolio-tools@jgrizzled/portfolio-tools:
+portfolio-tools@desert-defi/portfolio-tools:
   version "1.0.2"
-  resolved "https://codeload.github.com/jgrizzled/portfolio-tools/tar.gz/3820b800996d14e4ac4eeb84ddd1f0efa2be4c94"
+  resolved "https://codeload.github.com/desert-defi/portfolio-tools/tar.gz/90a0edd76185d5c8f4fe50e48f663e59aa7c52a0"
 
 posix-character-classes@^0.1.0:
   version "0.1.1"

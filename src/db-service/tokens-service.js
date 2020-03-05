@@ -4,28 +4,56 @@ import db from './db.js';
 const createTokens = tokens =>
   db('tokens')
     .insert(
-      tokens.map(({ address, symbol, name, exchangeAddress }) => ({
+      tokens.map(({ address, symbol, name, exchangeAddresses }) => ({
         address,
         symbol,
         name,
-        exchange_address: exchangeAddress
+        exchange_addresses: exchangeAddresses
       }))
     )
     .returning('id');
 
 const readTokenByID = id =>
   db('tokens')
-    .select('*')
+    .select(
+      'name',
+      'symbol',
+      'address',
+      'exchange_addresses as exchangeAddresses'
+    )
     .where({ id })
     .first();
 
 const readTokenByExchangeAddress = ex =>
   db('tokens')
-    .select('*')
-    .where({ exchange_address: ex })
+    .select(
+      'id',
+      'name',
+      'symbol',
+      'address',
+      'exchange_addresses as exchangeAddresses'
+    )
+    .whereRaw('?=ANY(exchange_addresses)', [ex])
     .first();
 
-const readAllTokens = () => db('tokens').select('*');
+const readAllTokens = () =>
+  db('tokens').select(
+    'id',
+    'name',
+    'symbol',
+    'address',
+    'exchange_addresses as exchangeAddresses'
+  );
+
+const updateTokenByID = (id, token) =>
+  db('tokens')
+    .update({
+      name: token.name,
+      symbol: token.symbol,
+      address: token.address,
+      exchange_addresses: token.exchangeAddresses
+    })
+    .where({ id });
 
 const truncateTokens = async () => {
   await db('tokens').delete();
@@ -37,5 +65,6 @@ export {
   readTokenByID,
   readTokenByExchangeAddress,
   readAllTokens,
+  updateTokenByID,
   truncateTokens
 };

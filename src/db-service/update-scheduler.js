@@ -29,8 +29,8 @@ const startDBupdater = async () => {
     latestDate = moment.unix(latestTimestamp);
   }
 
-  // schedule cron for most recent date + 24hr
-  const nextUpdate = latestDate.add(1, 'd');
+  // schedule cron for most recent date + 25hr
+  const nextUpdate = latestDate.add(25, 'h');
   const timeout = nextUpdate.diff(now, 'ms');
   logger.info(
     `Scheduling next update for ${moment
@@ -40,9 +40,13 @@ const startDBupdater = async () => {
   setTimeout(recurringUpdate, timeout);
 };
 
-const recurringUpdate = () => {
+const recurringUpdate = async () => {
   logger.info('Running scheduled DB update');
-  updateDB();
+
+  const latestTimestamp = (await readAllTimestamps())
+    .map(t => t.timestamp)
+    .sort((a, b) => b - a)[0];
+  updateDB(latestTimestamp);
 
   const timeout = moment.duration(1, 'd').as('ms');
   logger.info(

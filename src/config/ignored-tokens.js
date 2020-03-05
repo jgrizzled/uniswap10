@@ -88,5 +88,6 @@ export default [
   '0xc994a2deb02543db1f48688438b9903c4b305ce3', // AEUR
   '0xff4f56c14b8b59f7d766988a0e0c582e46b7f8ab', // GBP
   '0x86fadb80d8d2cff3c3680819e4da99c10232ba0f', // EBASE
-  '0xc1ad68c43508dd5addb8d0ac0927dbe752d149d6' // STL
+  '0xc1ad68c43508dd5addb8d0ac0927dbe752d149d6', // STL
+  '0x2bb6e4609d65b8e07f2c9d41d2f12f2fba1960d9' // DANAT
 ];

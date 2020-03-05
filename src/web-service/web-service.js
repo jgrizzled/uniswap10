@@ -18,7 +18,7 @@ webService.use(morgan(morganSetting));
 
 webService.use(helmet());
 
-webService.use('/index', indexAPI);
+webService.use('/api', indexAPI);
 
 // global error handler
 webService.use(function errorHandler(error, req, res, next) {

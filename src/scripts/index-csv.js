@@ -1,19 +1,18 @@
 // generate index to csv file
 
 'use strict';
-import moment from 'moment';
 import csv from 'csv-writer';
 const createCsvWriter = csv.createArrayCsvWriter;
 import { transpose } from 'portfolio-tools/src/math/matrix.js';
-import { readTokenByID } from '../db-service/tokens-service.js';
+
 import calcIndex from '../index/calc-index.js';
 
 const options = {
   top: 10,
-  period: 90,
+  period: 200,
   liquidityWeight: 0.5,
   volumeWeight: 0.5,
-  rebalancePeriod: 7,
+  rebalancePeriod: 30,
   weightDivisor: 100
 };
 
@@ -22,20 +21,14 @@ const generateCSV = async () => {
   const results = await calcIndex(options);
   console.log(`Computed index returns of length ${results.indexETH.length}`);
 
-  // format dates
-  const dateStrings = results.timestamps.map(t =>
-    moment.unix(t).format('MM/DD/YYYY')
-  );
-
   // build token symbol string array
   const tokenSymbols = [];
-  for (const id of results.tokenIDs) {
-    const token = await readTokenByID(id);
-    tokenSymbols.push(token.symbol);
+  for (const t of results.tokens) {
+    tokenSymbols.push(t.symbol);
   }
 
   const csvIndex = transpose([
-    dateStrings,
+    results.dates,
     results.indexETH,
     results.indexUSD,
     ...results.weightsByAsset

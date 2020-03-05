@@ -49,6 +49,15 @@ const readDayDataByTimestamp = async timestamp => {
   }));
 };
 
+const updateDayData = dayData =>
+  db('exchange_day_datas')
+    .update({
+      eth_price: dayData.ethPrice,
+      volume: dayData.volume,
+      liquidity: dayData.liquidity
+    })
+    .where({ timestamp: dayData.timestamp, token_id: dayData.tokenID });
+
 const truncateDayDatas = () => db.truncate('exchange_day_datas');
 
 export {
@@ -56,5 +65,6 @@ export {
   readAllDayDatas,
   readDayDataByTokenID,
   readDayDataByTimestamp,
+  updateDayData,
   truncateDayDatas
 };

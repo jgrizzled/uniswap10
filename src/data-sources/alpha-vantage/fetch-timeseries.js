@@ -3,12 +3,13 @@
 import fetch from 'node-fetch';
 import moment from 'moment';
 import dotenv from 'dotenv';
+import logger from '../../logger.js';
 dotenv.config();
 const key = process.env.AV_API_KEY;
 
 // Fetch an exchange rate timeseries for a pair, going back a few years
 const fetchTimeseries = async (denomSymbol, quoteSymbol) => {
-  console.log(
+  logger.info(
     `Fetching time series for ${denomSymbol}/${quoteSymbol} from AlphaVantage`
   );
   var response = await fetch(
