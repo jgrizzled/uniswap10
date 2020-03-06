@@ -28,8 +28,8 @@ const buildExchangeDataQuery = (date, ignoredExchanges, skip = 0) =>
           date_gt: ${date},
           exchangeAddress_not_in: 
             ${JSON.stringify(ignoredExchanges)},
-          ethVolume_gte: 100,
-          ethBalance_gte: 100
+          ethVolume_gte: 10,
+          ethBalance_gte: 10
         }) {
           timestamp: date
           exchangeAddress

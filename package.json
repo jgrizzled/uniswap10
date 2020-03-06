@@ -31,13 +31,16 @@
   },
   "scripts": {
     "migrate": "postgrator --config postgrator-config.cjs",
-    "update-db": "node --experimental-modules src/scripts/run-update-db",
-    "truncate": "node --experimental-modules src/scripts/truncate-db",
-    "csv": "node --experimental-modules  src/scripts/index-csv",
-    "start": "node --experimental-modules src/server",
+    "update-db": "node src/scripts/run-update-db",
+    "truncate": "node src/scripts/truncate-db",
+    "csv": "node src/scripts/index-csv",
+    "start": "node src/server",
     "dev": "nodemon src/server",
     "predeploy": "yarn audit && yarn migrate:production",
     "deploy": "git push heroku master",
     "migrate:production": "env SSL=true DATABASE_URL=$(heroku config:get DATABASE_URL) yarn migrate"
+  },
+  "engines": {
+    "node": "13.6.0"
   }
 }

@@ -9,7 +9,7 @@ import calcIndex from '../index/calc-index.js';
 
 const options = {
   top: 10,
-  period: 200,
+  period: 365,
   liquidityWeight: 0.5,
   volumeWeight: 0.5,
   rebalancePeriod: 30,

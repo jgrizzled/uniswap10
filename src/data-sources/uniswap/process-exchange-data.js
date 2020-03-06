@@ -85,7 +85,6 @@ const processExchangeData = async exchangeData => {
           logger.info(
             `merging new tokens - old: ${match.name} ${match.address} new: ${t.name} ${t.address}`
           );
-          logger.info('Assuming same new tokens', match, t);
           match.address = t.address;
           match.exchangeAddresses.push(...t.exchangeAddresses);
         }

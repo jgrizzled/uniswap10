@@ -26,7 +26,7 @@ const updateDB = async latestTimestamp => {
   // if yes, do fetches, get new most recent date
   if (sinceLastUpdate > 24) {
     logger.info('Fetching exchangeDayDatas');
-    const exchangeDayDatas = await fetchExchangeDataAfterDate(lastTimestamp);
+    const exchangeDayDatas = await fetchExchangeDataAfterDate(latestTimestamp);
     if (exchangeDayDatas.length > 0)
       await processExchangeData(exchangeDayDatas);
     logger.info('Fetching ETH/USD timeseries');
