@@ -32,23 +32,43 @@ indexAPI.getAsync('/index', async (req, res) => {
   // rebalance period param
   if (req.query.rp) {
     const rpn = Number(req.query.rp);
-    if (isNaN(rpn) || rpn !== 7 || rpn !== 30)
+    if (isNaN(rpn) || (rpn !== 7 && rpn !== 30 && rpn !== 90))
       res.json({ error: 'invalid rebalance period' });
     options.rebalancePeriod = rpn;
   }
 
   // liquidity/volume weight param
   // 1 = all liquidity, 0.5 = half each, 0 = all volume
-  if (req.query.l) {
-    const ln = Number(req.query.l);
-    if (isNaN(ln) || ln !== 0 || ln !== 0.5 || ln !== 1)
+  if (req.query.lw) {
+    const lwn = Number(req.query.lw);
+    if (isNaN(lwn) || (lwn !== 0 && lwn !== 0.5 && lwn !== 1))
       res.json({ error: 'invalid liquidity/volume weight' });
-    options.liquidityWeight = lvn;
-    options.volumeWeight = 1 - lvn;
+    options.liquidityWeight = lwn;
+    options.volumeWeight = 1 - lwn;
   }
 
-  const results = await calcIndex(options);
-  res.json(results);
+  const { indexETH, indexUSD, dates, tokens, weightsByAsset } = await calcIndex(
+    options
+  );
+
+  let currency = 'usd';
+
+  if (req.query.c) {
+    if (req.query.c !== 'usd' && req.query.c !== 'eth')
+      res.json({ error: 'invalid currency' });
+    currency = req.query.c;
+  }
+
+  let index;
+  if (currency === 'eth') index = indexETH;
+  if (currency === 'usd') index = indexUSD;
+
+  res.json({
+    index,
+    weightsByAsset,
+    dates,
+    tokens
+  });
   logger.info('sent index');
 });
 
