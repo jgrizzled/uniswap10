@@ -43,10 +43,10 @@ const generateCSV = async () => {
 
   await csvWriter.writeRecords(csvIndex);
 
-  process.exit();
+  process.exit(0);
 };
 
 generateCSV().catch(e => {
   console.error(e);
-  process.exit();
+  process.exit(1);
 });

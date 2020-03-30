@@ -1,4 +1,4 @@
-// router for folders endpoint
+// router for index timeseries API
 
 import express from 'express';
 import cors from 'cors';
@@ -13,11 +13,6 @@ indexAPI.use(cors());
 
 indexAPI.getAsync('/index', async (req, res) => {
   logger.info('calculating index');
-  // return index data for params
-  // fetch(myurl/index?month=1,)
-  // POST {month: 1}
-  // rebalance period = 1 week, 1 month
-  // all liquidity, all volume, or 50-50
 
   // default options
   const options = {

@@ -9,10 +9,10 @@ const truncateDB = async () => {
   await truncateETH_USDprices();
   await truncateTokens();
   await truncateTimestamps();
-  process.exit();
+  process.exit(0);
 };
 
 truncateDB().catch(e => {
   console.error(e);
-  process.exit();
+  process.exit(1);
 });

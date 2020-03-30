@@ -129,7 +129,7 @@ const validateContext = (context, pricesByAsset) => {
     context.volumesByAsset.length !== pricesByAsset.length ||
     context.volumesByAsset[0].length !== pricesByAsset[0].length
   )
-    throw new Error('invalid liquiditiesByAsset');
+    throw new Error('invalid volumesByAsset');
 };
 
 export default new Strategy(
