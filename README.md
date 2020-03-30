@@ -8,6 +8,8 @@ Technologies: Node, Express, Postgres, GraphQL
 
 Data sources: [The Graph](https://thegraph.com), [AlphaVantage](https://www.alphavantage.co/)
 
+[Client Repository](https://github.com/jgrizzled/uniswap10-client)
+
 ## Install
 
 1. `yarn install`
