@@ -4,8 +4,7 @@ import fetch from 'node-fetch';
 import moment from 'moment';
 import dotenv from 'dotenv';
 import logger from '../../logger.js';
-dotenv.config();
-const key = process.env.AV_API_KEY;
+import config from '../../config/env.js';
 
 // Fetch an exchange rate timeseries for a pair, going back a few years
 const fetchTimeseries = async (denomSymbol, quoteSymbol) => {
@@ -13,7 +12,7 @@ const fetchTimeseries = async (denomSymbol, quoteSymbol) => {
     `Fetching time series for ${denomSymbol}/${quoteSymbol} from AlphaVantage`
   );
   var response = await fetch(
-    `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=${denomSymbol}&market=${quoteSymbol}&apikey=${key}`
+    `https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=${denomSymbol}&market=${quoteSymbol}&apikey=${config.AV_API_KEY}`
   );
   if (!response.ok)
     throw new Error('AlphaVantage response error ' + JSON.stringify(response));

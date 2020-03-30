@@ -83,16 +83,12 @@ const checkRebalance = (
 };
 
 const validateOptions = (options, pricesByAsset) => {
-  if (
-    typeof options.top !== 'number' ||
-    options.top < 1 ||
-    options.top > pricesByAsset.length
-  )
+  if (typeof options.top !== 'number' || options.top < 1 || options.top > 10000)
     throw new Error('invalid top ' + options.top);
 
   if (
     typeof options.period !== 'number' ||
-    options.period < 2 ||
+    options.period < 1 ||
     options.period >= pricesByAsset[0].length
   )
     throw new Error('invalid period ' + options.period);

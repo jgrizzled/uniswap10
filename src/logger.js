@@ -1,6 +1,4 @@
 // logger
-import dotenv from 'dotenv';
-dotenv.config();
 import winston from 'winston';
 
 // fix to display formatted error stacks in console

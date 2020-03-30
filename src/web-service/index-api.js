@@ -29,10 +29,10 @@ indexAPI.getAsync('/index', async (req, res) => {
     weightDivisor: 100
   };
 
-  // rebalance period param
+  // rebalance period param (# days)
   if (req.query.rp) {
     const rpn = Number(req.query.rp);
-    if (isNaN(rpn) || (rpn !== 7 && rpn !== 30 && rpn !== 90))
+    if (isNaN(rpn) || rpn < 0 || rpn > 365)
       res.json({ error: 'invalid rebalance period' });
     options.rebalancePeriod = rpn;
   }
@@ -41,10 +41,17 @@ indexAPI.getAsync('/index', async (req, res) => {
   // 1 = all liquidity, 0.5 = half each, 0 = all volume
   if (req.query.lw) {
     const lwn = Number(req.query.lw);
-    if (isNaN(lwn) || (lwn !== 0 && lwn !== 0.5 && lwn !== 1))
+    if (isNaN(lwn) || lwn < 0 || lwn > 1)
       res.json({ error: 'invalid liquidity/volume weight' });
     options.liquidityWeight = lwn;
     options.volumeWeight = 1 - lwn;
+  }
+
+  // period lookback param (# days)
+  if (req.query.p) {
+    const pn = Number(req.query.p);
+    if (isNaN(pn) || pn < 1 || pn > 365) res.json({ error: 'invalid period' });
+    options.period = pn;
   }
 
   const { indexETH, indexUSD, dates, tokens, weightsByAsset } = await calcIndex(

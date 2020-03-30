@@ -1,7 +1,5 @@
 // Express web server
 
-import dotenv from 'dotenv';
-dotenv.config();
 import express from 'express'; // HTTP server
 import morgan from 'morgan'; // HTTP logging
 import helmet from 'helmet'; // secure HTTP headers

@@ -46,7 +46,7 @@ export default async function calcIndex(options) {
   // filter dates with 0 return
   let dateIndex;
   for (dateIndex = 0; dateIndex < timestamps.length; dateIndex++) {
-    if (sim.results.returns[dateIndex] > 0) break;
+    if (sim.results.returns[dateIndex] !== 0) break;
   }
   const returns = sim.results.returns.slice(dateIndex);
   timestamps = timestamps.slice(dateIndex);
