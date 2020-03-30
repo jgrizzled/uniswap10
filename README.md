@@ -12,7 +12,9 @@ Data sources: [The Graph](https://thegraph.com), [AlphaVantage](https://www.alph
 
 ## Install
 
-1. `yarn install`
+<span style="color:red">_Requires Node.js 13.2.0 or later_</span>
+
+1. `yarn install` or `npm install`
 
 2. `cp sample.env .env`
 
@@ -24,25 +26,25 @@ Data sources: [The Graph](https://thegraph.com), [AlphaVantage](https://www.alph
 
 6. Put AV API key in .env
 
-7. Migrate DB: `yarn migrate`
+7. Migrate DB: `yarn migrate` or `npm migrate`
 
-8. (Production) Schedule cron job to run `yarn update-db` every 24h
+8. (Production) Schedule cron job to run `yarn update-db` or `npm update-db` every 24h
 
 ## Scripts
 
-Start server: `yarn start`
+Start server: `yarn start` or `npm run start`
 
-Develop: `yarn dev`
+Develop: `yarn dev` or `npm dev`
 
-Fetch new data and update DB: `yarn update-db`
+Fetch new data and update DB: `yarn update-db` or `npm update-db`
 
-Migrate up DB: `yarn migrate`
+Migrate up DB: `yarn migrate` or `npm migrate`
 
-Truncate DB: `yarn truncate`
+Truncate DB: `yarn truncate` or `npm run truncate`
 
-Deploy to Heroku (must set up first): `yarn deploy`
+Deploy to Heroku (must set up first): `yarn deploy` or `npm run deploy`
 
-Generate CSV file of Uniswap10 Index: `yarn csv`
+Generate CSV file of Uniswap10 Index: `yarn csv` or `npm csv`
 
 ## Set up Heroku Deployment
 
@@ -50,12 +52,12 @@ Generate CSV file of Uniswap10 Index: `yarn csv`
 
 2. `heroku addons:create heroku-postgresql:hobby-dev`
 
-3. `yarn migrate:production`
+3. `yarn migrate:production` or `npm migrate:production`
 
 4. `heroku addons:create scheduler:standard`
 
-5. Configure scheduler on Heroku dashboard to run `yarn update-db` every 24 hr
+5. Configure scheduler on Heroku dashboard to run `yarn update-db` or `npm update-db` every 24 hr
 
 6. `heroku config:set AV_API_KEY=<your API key>`
 
-7. `yarn deploy`
+7. `yarn deploy` or `npm run deploy`

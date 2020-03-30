@@ -16,13 +16,15 @@ const createDayDatas = dayDatas =>
 const readAllDayDatas = () =>
   db('exchange_day_datas')
     .select('*')
-    .map(d => ({
-      tokenID: d.token_id,
-      timestamp: Number(d.timestamp),
-      liquidity: Number(d.liquidity),
-      volume: Number(d.volume),
-      ethPrice: Number(d.eth_price)
-    }));
+    .then(r =>
+      r.map(d => ({
+        tokenID: d.token_id,
+        timestamp: Number(d.timestamp),
+        liquidity: Number(d.liquidity),
+        volume: Number(d.volume),
+        ethPrice: Number(d.eth_price)
+      }))
+    );
 
 const readDayDataByTokenID = async id => {
   const data = await db('exchange_day_datas')
