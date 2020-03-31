@@ -4,7 +4,7 @@ import express from 'express'; // HTTP server
 import morgan from 'morgan'; // HTTP logging
 import helmet from 'helmet'; // secure HTTP headers
 
-import env from '../config/env';
+import env from '../config/env.js';
 import logger from '../logger.js';
 import indexAPI from './index-api.js';
 
