@@ -28,13 +28,13 @@ const calcWeights = (dateIndex, pricesByAsset, options, context) => {
   const liqAvgByAsset = context.liquiditiesByAsset.map(
     liqs =>
       liqs
-        .slice(dateIndex - context.period + 1, dateIndex + 1)
+        .slice(dateIndex - options.period + 1, dateIndex + 1)
         .reduce((sum, liq) => sum + liq, 0) / liqs.length
   );
   const volAvgByAsset = context.volumesByAsset.map(
     vols =>
       vols
-        .slice(dateIndex - context.period + 1, dateIndex + 1)
+        .slice(dateIndex - options.period + 1, dateIndex + 1)
         .reduce((sum, vol) => sum + vol, 0) / vols.length
   );
 
