@@ -4,16 +4,20 @@ import express from 'express';
 import cors from 'cors';
 import ajs from '@awaitjs/express';
 const { addAsync } = ajs;
+import moment from 'moment';
+
 import logger from '../logger.js';
 import calcIndex from '../index/calc-index.js';
+import { readLatestTimestamp } from '../db-service/timestamps-service.js';
+
+// cache index calculations in memory
+const cache = new Map();
 
 const indexAPI = addAsync(express.Router());
 
 indexAPI.use(cors());
 
 indexAPI.getAsync('/index', async (req, res) => {
-  logger.info('calculating index');
-
   // default options
   const options = {
     top: 10,
@@ -42,28 +46,52 @@ indexAPI.getAsync('/index', async (req, res) => {
     options.volumeWeight = 1 - lwn;
   }
 
-  // period lookback param (# days)
+  // lookback period param (# days)
   if (req.query.p) {
     const pn = Number(req.query.p);
     if (isNaN(pn) || pn < 1 || pn > 365) res.json({ error: 'invalid period' });
     options.period = pn;
   }
 
-  const { indexETH, indexUSD, dates, tokens, weightsByAsset } = await calcIndex(
-    options
-  );
+  // cache
+  const key = JSON.stringify(options);
+  const latestTimestamp = await readLatestTimestamp();
+  // remove stale results
+  for (let [k, v] of cache) {
+    if (v.latestTimestamp != latestTimestamp) cache.delete(k);
+  }
+  let result = {};
+  if (cache.has(key)) {
+    console.log('Serving from cache');
+    result = cache.get(key).result;
+  } else {
+    console.log('Running backtest');
+    result = await calcIndex(options);
+    cache.set(key, { latestTimestamp, result });
+    console.log('Cached results: ' + cache.size);
+  }
 
+  const { indexETH, indexUSD, dates, tokens, weightsByAsset } = result;
+  // display currency param (eth,usd)
   let currency = 'usd';
-
-  if (req.query.c) {
-    if (req.query.c !== 'usd' && req.query.c !== 'eth')
+  if (typeof req.query.c === 'string') {
+    if (
+      req.query.c.toLowerCase() !== 'usd' &&
+      req.query.c.toLowerCase() !== 'eth'
+    )
       res.json({ error: 'invalid currency' });
-    currency = req.query.c;
+    currency = req.query.c.toLowerCase();
   }
 
   let index;
   if (currency === 'eth') index = indexETH;
   if (currency === 'usd') index = indexUSD;
+
+  // enable client-side caching
+  const expires = moment.unix(latestTimestamp).add(24, 'h');
+  console.log('Expires: ' + expires.toString());
+  res.set('Cache-Control', 'public');
+  res.set('Expires', expires.toString());
 
   res.json({
     index,
@@ -71,7 +99,6 @@ indexAPI.getAsync('/index', async (req, res) => {
     dates,
     tokens
   });
-  logger.info('sent index');
 });
 
 export default indexAPI;

@@ -8,6 +8,16 @@ const readAllTimestamps = async () =>
       .orderBy('timestamp', 'asc')
   ).map(t => ({ timestamp: Number(t.timestamp) }));
 
+const readLatestTimestamp = async () =>
+  Number(
+    (
+      await db('timestamps')
+        .select('*')
+        .orderBy('timestamp', 'desc')
+        .first()
+    ).timestamp
+  );
+
 const createTimestamps = timestamps =>
   db.batchInsert(
     'timestamps',
@@ -16,4 +26,9 @@ const createTimestamps = timestamps =>
 
 const truncateTimestamps = () => db('timestamps').delete();
 
-export { readAllTimestamps, createTimestamps, truncateTimestamps };
+export {
+  readAllTimestamps,
+  readLatestTimestamp,
+  createTimestamps,
+  truncateTimestamps
+};
