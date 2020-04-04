@@ -8,7 +8,7 @@ import processETH_USDdata from '../data-sources/alpha-vantage/process-ethusd-dat
 import { readLatestTimestamp } from '../db-service/timestamps-service.js';
 import logger from '../logger.js';
 
-const updateDB = async latestTimestamp => {
+const updateDB = async (latestTimestamp) => {
   // get most recent date
   if (!latestTimestamp) latestTimestamp = await readLatestTimestamp();
   if (isNaN(latestTimestamp)) latestTimestamp = 0;
@@ -23,7 +23,7 @@ const updateDB = async latestTimestamp => {
   );
 
   // if yes, do fetches, get new most recent date
-  if (sinceLastUpdate / 60 > 24) {
+  if (sinceLastUpdate / 60 >= 24) {
     logger.info('Fetching exchangeDayDatas');
     const exchangeDayDatas = await fetchExchangeDataAfterDate(latestTimestamp);
     if (exchangeDayDatas.length > 0)

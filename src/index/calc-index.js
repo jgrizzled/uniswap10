@@ -8,7 +8,7 @@ import { readAllETH_USDprices } from '../db-service/ethusd-service.js';
 import { readTokenByID } from '../db-service/tokens-service.js';
 import {
   calcReturns,
-  calcTotalReturns
+  calcTotalReturns,
 } from 'portfolio-tools/src/math/returns.js';
 
 export default async function calcIndex(options) {
@@ -18,12 +18,12 @@ export default async function calcIndex(options) {
     tokenIDs,
     pricesByAsset,
     liquiditiesByAsset,
-    volumesByAsset
+    volumesByAsset,
   ] = await prepareDBarrays();
 
   const context = {
     liquiditiesByAsset,
-    volumesByAsset
+    volumesByAsset,
   };
 
   const sim = new Simulation(pricesByAsset, LVWStrategy, options, context);
@@ -36,7 +36,7 @@ export default async function calcIndex(options) {
   const filteredTokenIDs = [];
   const filteredWeightsByAsset = [];
   for (let assetIndex = 0; assetIndex < tokenIDs.length; assetIndex++) {
-    if (sim.results.weightsByAsset[assetIndex].some(w => w > 0)) {
+    if (sim.results.weightsByAsset[assetIndex].some((w) => w > 0)) {
       filteredTokenIDs.push(tokenIDs[assetIndex]);
       filteredWeightsByAsset.push(sim.results.weightsByAsset[assetIndex]);
     }
@@ -50,12 +50,12 @@ export default async function calcIndex(options) {
   }
   const returns = sim.results.returns.slice(dateIndex);
   timestamps = timestamps.slice(dateIndex);
-  const weightsByAsset = filteredWeightsByAsset.map(w => w.slice(dateIndex));
+  const weightsByAsset = filteredWeightsByAsset.map((w) => w.slice(dateIndex));
   if (returns.length === 0 || timestamps.length === 0)
     throw new Error('Empty nonzero returns/timestamps');
 
   // calc ETH/USD returns
-  const ETH_USDprices = (await readAllETH_USDprices()).map(p => p.price);
+  const ETH_USDprices = (await readAllETH_USDprices()).map((p) => p.price);
 
   let ETH_USDreturns = calcReturns(ETH_USDprices);
 
@@ -67,11 +67,13 @@ export default async function calcIndex(options) {
   );
 
   // calc total returns
-  const indexETH = calcTotalReturns(returns);
-  const indexUSD = calcTotalReturns(returnsUSD);
+  const indexETH = calcTotalReturns(returns).map((r) => (r * 100).toFixed(2));
+  const indexUSD = calcTotalReturns(returnsUSD).map((r) =>
+    (r * 100).toFixed(2)
+  );
 
   // format dates
-  const dates = timestamps.map(t => moment.unix(t).format('MM/DD/YYYY'));
+  const dates = timestamps.map((t) => moment.unix(t).format('YYYY-MM-DD'));
 
   // build token symbol string array
   const tokens = [];
@@ -80,7 +82,7 @@ export default async function calcIndex(options) {
     tokens.push({
       name: token.name,
       symbol: token.symbol,
-      address: token.address
+      address: token.address,
     });
   }
 
@@ -89,6 +91,6 @@ export default async function calcIndex(options) {
     indexUSD,
     dates,
     tokens,
-    weightsByAsset
+    weightsByAsset,
   };
 }

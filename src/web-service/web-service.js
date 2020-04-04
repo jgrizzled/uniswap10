@@ -8,12 +8,11 @@ import env from '../config/env.js';
 import logger from '../logger.js';
 import indexAPI from './index-api.js';
 
-// add async middleware handlers
 const webService = express();
 
 // global middleware
-const morganSetting = env.NODE_ENV === 'production' ? 'tiny' : 'common';
-webService.use(morgan(morganSetting));
+
+if (env.NODE_ENV !== 'production') webService.use(morgan('tiny'));
 
 webService.use(helmet());
 

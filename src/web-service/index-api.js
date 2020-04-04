@@ -6,7 +6,6 @@ import ajs from '@awaitjs/express';
 const { addAsync } = ajs;
 import moment from 'moment';
 
-import logger from '../logger.js';
 import calcIndex from '../index/calc-index.js';
 import { readLatestTimestamp } from '../db-service/timestamps-service.js';
 
@@ -32,7 +31,7 @@ indexAPI.getAsync('/index', async (req, res) => {
   if (req.query.rp) {
     const rpn = Number(req.query.rp);
     if (isNaN(rpn) || rpn < 0 || rpn > 365)
-      res.json({ error: 'invalid rebalance period' });
+      return res.status(400).json({ error: 'invalid rebalance period' });
     options.rebalancePeriod = rpn;
   }
 
@@ -41,7 +40,7 @@ indexAPI.getAsync('/index', async (req, res) => {
   if (req.query.lw) {
     const lwn = Number(req.query.lw);
     if (isNaN(lwn) || lwn < 0 || lwn > 1)
-      res.json({ error: 'invalid liquidity/volume weight' });
+      return res.status(400).json({ error: 'invalid liquidity/volume weight' });
     options.liquidityWeight = lwn;
     options.volumeWeight = 1 - lwn;
   }
@@ -49,7 +48,8 @@ indexAPI.getAsync('/index', async (req, res) => {
   // lookback period param (# days)
   if (req.query.p) {
     const pn = Number(req.query.p);
-    if (isNaN(pn) || pn < 1 || pn > 365) res.json({ error: 'invalid period' });
+    if (isNaN(pn) || pn < 1 || pn > 365)
+      return res.status(400).json({ error: 'invalid period' });
     options.period = pn;
   }
 
@@ -72,6 +72,7 @@ indexAPI.getAsync('/index', async (req, res) => {
   }
 
   const { indexETH, indexUSD, dates, tokens, weightsByAsset } = result;
+
   // display currency param (eth,usd)
   let currency = 'usd';
   if (typeof req.query.c === 'string') {

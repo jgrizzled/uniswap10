@@ -2,7 +2,6 @@
 
 import fetch from 'node-fetch';
 import moment from 'moment';
-import dotenv from 'dotenv';
 import logger from '../../logger.js';
 import config from '../../config/env.js';
 
