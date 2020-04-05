@@ -3,7 +3,7 @@
 'use strict';
 import csv from 'csv-writer';
 const createCsvWriter = csv.createArrayCsvWriter;
-import { transpose } from 'portfolio-tools/src/math/matrix.js';
+import { transpose } from 'portfolio-tools';
 
 import calcIndex from '../index/calc-index.js';
 
@@ -13,7 +13,7 @@ const options = {
   liquidityWeight: 0.5,
   volumeWeight: 0.5,
   rebalancePeriod: 30,
-  weightDivisor: 100
+  weightDivisor: 100,
 };
 
 const generateCSV = async () => {
@@ -31,14 +31,14 @@ const generateCSV = async () => {
     results.dates,
     results.indexETH,
     results.indexUSD,
-    ...results.weightsByAsset
+    ...results.weightsByAsset,
   ]);
 
   console.log('Writing results to CSV');
 
   const csvWriter = createCsvWriter({
     path: 'uniswap-index.csv',
-    header: ['dates', 'indexETH', 'indexUSD', ...tokenSymbols]
+    header: ['dates', 'indexETH', 'indexUSD', ...tokenSymbols],
   });
 
   await csvWriter.writeRecords(csvIndex);
@@ -46,7 +46,7 @@ const generateCSV = async () => {
   process.exit(0);
 };
 
-generateCSV().catch(e => {
+generateCSV().catch((e) => {
   console.error(e);
   process.exit(1);
 });

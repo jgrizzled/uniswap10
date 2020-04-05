@@ -24,7 +24,7 @@ indexAPI.getAsync('/index', async (req, res) => {
     liquidityWeight: 0.5,
     volumeWeight: 0.5,
     rebalancePeriod: 30,
-    weightDivisor: 100
+    weightDivisor: 100,
   };
 
   // rebalance period param (# days)
@@ -89,7 +89,8 @@ indexAPI.getAsync('/index', async (req, res) => {
   if (currency === 'usd') index = indexUSD;
 
   // enable client-side caching
-  const expires = moment.unix(latestTimestamp).add(24, 'h');
+  // 24 + 1 hr buffer
+  const expires = moment.unix(latestTimestamp).add(25, 'h');
   console.log('Expires: ' + expires.toString());
   res.set('Cache-Control', 'public');
   res.set('Expires', expires.toString());
@@ -98,7 +99,7 @@ indexAPI.getAsync('/index', async (req, res) => {
     index,
     weightsByAsset,
     dates,
-    tokens
+    tokens,
   });
 });
 

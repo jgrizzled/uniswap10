@@ -1,10 +1,9 @@
 // pull data from db and structure for timeseries analysis
 
-import { newMatrix } from 'portfolio-tools/src/math/matrix.js';
+import { newMatrix, calcReturns } from 'portfolio-tools';
 import { readAllTimestamps } from '../db-service/timestamps-service.js';
 import { readAllTokens } from '../db-service/tokens-service.js';
 import { readDayDataByTimestamp } from '../db-service/exchange-data-service.js';
-import { calcReturns } from 'portfolio-tools/src/math/returns.js';
 
 const prepareDBarrays = async () => {
   // build timestamps array

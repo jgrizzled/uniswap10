@@ -1,15 +1,11 @@
 // calculate index returns with db data
 
 import moment from 'moment';
-import { Simulation } from 'portfolio-tools';
 import LVWStrategy from './liquidity-volume-weighted-strategy.js';
 import prepareDBarrays from './prepare-db-arrays.js';
 import { readAllETH_USDprices } from '../db-service/ethusd-service.js';
 import { readTokenByID } from '../db-service/tokens-service.js';
-import {
-  calcReturns,
-  calcTotalReturns,
-} from 'portfolio-tools/src/math/returns.js';
+import { calcReturns, calcTotalReturns, Simulation } from 'portfolio-tools';
 
 export default async function calcIndex(options) {
   // get formatted data from db
