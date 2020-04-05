@@ -11,7 +11,7 @@ import logger from '../logger.js';
 const updateDB = async (latestTimestamp) => {
   // get most recent date
   if (!latestTimestamp) latestTimestamp = await readLatestTimestamp();
-  if (isNaN(latestTimestamp)) latestTimestamp = 0;
+  if (latestTimestamp === null || isNaN(latestTimestamp)) latestTimestamp = 0;
   let latestDate = moment.unix(latestTimestamp);
   logger.info('Latest date ' + latestDate.toString());
 
