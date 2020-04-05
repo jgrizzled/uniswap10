@@ -16,7 +16,7 @@ export default async function calcIndex(options) {
   let [
     timestamps,
     tokenIDs,
-    pricesByAsset,
+    returnsByAsset,
     liquiditiesByAsset,
     volumesByAsset,
   ] = await prepareDBarrays();
@@ -26,7 +26,7 @@ export default async function calcIndex(options) {
     volumesByAsset,
   };
 
-  const sim = new Simulation(pricesByAsset, LVWStrategy, options, context);
+  const sim = new Simulation(returnsByAsset, LVWStrategy, options, context);
 
   sim.run();
 

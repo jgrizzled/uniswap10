@@ -2446,7 +2446,10 @@ portfolio-allocation@^0.0.7:
 
 portfolio-tools@desert-defi/portfolio-tools:
   version "1.0.2"
-  resolved "https://codeload.github.com/desert-defi/portfolio-tools/tar.gz/90a0edd76185d5c8f4fe50e48f663e59aa7c52a0"
+  resolved "https://codeload.github.com/desert-defi/portfolio-tools/tar.gz/3b0d2ac66b1956515efd864bab3d0c062eafd515"
+  dependencies:
+    csv-writer "^1.6.0"
+    node-fetch "^2.6.0"
 
 posix-character-classes@^0.1.0:
   version "0.1.1"

@@ -17,13 +17,13 @@ const updateDB = async (latestTimestamp) => {
 
   // check if its been 24h since most recent date
   const now = moment();
-  const sinceLastUpdate = now.diff(latestDate, 'm');
+  const sinceLastUpdate = now.diff(latestDate, 's');
   logger.info(
-    `Its been ${(sinceLastUpdate / 60).toFixed(2)} hrs since last update`
+    `Its been ${(sinceLastUpdate / 3600).toFixed(4)} hrs since last update`
   );
 
   // if yes, do fetches, get new most recent date
-  if (sinceLastUpdate / 60 >= 24) {
+  if (sinceLastUpdate / 3600 > 24) {
     logger.info('Fetching exchangeDayDatas');
     const exchangeDayDatas = await fetchExchangeDataAfterDate(latestTimestamp);
     if (exchangeDayDatas.length > 0)

@@ -11,39 +11,39 @@
 
     context {
       liquiditiesByAsset: []
-      weightsByAsset: [] } */
+      volumesByAsset: [] } */
 
 import { Strategy } from 'portfolio-tools';
 import pa from 'portfolio-allocation';
 const { roundedWeights } = pa;
 
-const calcWeights = (dateIndex, pricesByAsset, options, context) => {
+const calcWeights = (dateIndex, returnsByAsset, options, context) => {
   // initialize weights
-  let weightByAsset = Array(pricesByAsset.length).fill(0);
+  let weightByAsset = Array(returnsByAsset.length).fill(0);
 
   // no weights until avg period
   if (dateIndex + 1 < options.period) return weightByAsset;
 
   // calc avgs
   const liqAvgByAsset = context.liquiditiesByAsset.map(
-    liqs =>
+    (liqs) =>
       liqs
         .slice(dateIndex - options.period + 1, dateIndex + 1)
         .reduce((sum, liq) => sum + liq, 0) / liqs.length
   );
   const volAvgByAsset = context.volumesByAsset.map(
-    vols =>
+    (vols) =>
       vols
         .slice(dateIndex - options.period + 1, dateIndex + 1)
         .reduce((sum, vol) => sum + vol, 0) / vols.length
   );
 
   // attach values to assets
-  const assets = pricesByAsset.map((_, i) => ({
+  const assets = returnsByAsset.map((_, i) => ({
     value:
       liqAvgByAsset[i] * options.liquidityWeight +
       volAvgByAsset[i] * options.volumeWeight,
-    assetIndex: i
+    assetIndex: i,
   }));
 
   // get top assets
@@ -54,7 +54,7 @@ const calcWeights = (dateIndex, pricesByAsset, options, context) => {
   const totalValue = topAssets.reduce((sum, a) => sum + a.value, 0);
 
   // calc weights
-  topAssets.forEach(a => {
+  topAssets.forEach((a) => {
     weightByAsset[a.assetIndex] = a.value / totalValue;
   });
 
@@ -82,14 +82,14 @@ const checkRebalance = (
   return false;
 };
 
-const validateOptions = (options, pricesByAsset) => {
+const validateOptions = (options, returnsByAsset) => {
   if (typeof options.top !== 'number' || options.top < 1 || options.top > 10000)
     throw new Error('invalid top ' + options.top);
 
   if (
     typeof options.period !== 'number' ||
     options.period < 1 ||
-    options.period >= pricesByAsset[0].length
+    options.period >= returnsByAsset[0].length
   )
     throw new Error('invalid period ' + options.period);
 
@@ -113,21 +113,21 @@ const validateOptions = (options, pricesByAsset) => {
       typeof options.rebalancePeriod !== 'number' ||
       options.rebalancePeriod < 1 ||
       !Number.isInteger(options.rebalancePeriod) ||
-      options.rebalancePeriod >= pricesByAsset[0].length
+      options.rebalancePeriod >= returnsByAsset[0].length
     )
       throw new Error('invalid rebalancePeriod ' + options.rebalancePeriod);
 };
 
-const validateContext = (context, pricesByAsset) => {
+const validateContext = (context, returnsByAsset) => {
   if (
-    context.liquiditiesByAsset.length !== pricesByAsset.length ||
-    context.liquiditiesByAsset[0].length !== pricesByAsset[0].length
+    context.liquiditiesByAsset.length !== returnsByAsset.length ||
+    context.liquiditiesByAsset[0].length !== returnsByAsset[0].length
   )
     throw new Error('invalid liquiditiesByAsset');
 
   if (
-    context.volumesByAsset.length !== pricesByAsset.length ||
-    context.volumesByAsset[0].length !== pricesByAsset[0].length
+    context.volumesByAsset.length !== returnsByAsset.length ||
+    context.volumesByAsset[0].length !== returnsByAsset[0].length
   )
     throw new Error('invalid volumesByAsset');
 };

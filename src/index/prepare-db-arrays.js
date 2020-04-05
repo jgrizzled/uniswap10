@@ -4,13 +4,14 @@ import { newMatrix } from 'portfolio-tools/src/math/matrix.js';
 import { readAllTimestamps } from '../db-service/timestamps-service.js';
 import { readAllTokens } from '../db-service/tokens-service.js';
 import { readDayDataByTimestamp } from '../db-service/exchange-data-service.js';
+import { calcReturns } from 'portfolio-tools/src/math/returns.js';
 
 const prepareDBarrays = async () => {
   // build timestamps array
-  const timestamps = (await readAllTimestamps()).map(t => t.timestamp);
+  const timestamps = (await readAllTimestamps()).map((t) => t.timestamp);
 
   // get tokenIDs
-  const tokenIDs = (await readAllTokens()).map(t => t.id);
+  const tokenIDs = (await readAllTokens()).map((t) => t.id);
 
   // initialize arrays
   const liquiditiesByAsset = newMatrix(tokenIDs.length, timestamps.length),
@@ -31,12 +32,14 @@ const prepareDBarrays = async () => {
     }
   }
 
+  const returnsByAsset = pricesByAsset.map((prices) => calcReturns(prices));
+
   return [
-    timestamps,
+    timestamps.slice(1),
     tokenIDs,
-    pricesByAsset,
-    liquiditiesByAsset,
-    volumesByAsset
+    returnsByAsset,
+    liquiditiesByAsset.map((liqs) => liqs.slice(1)),
+    volumesByAsset.map((vols) => vols.slice(1)),
   ];
 };
 
