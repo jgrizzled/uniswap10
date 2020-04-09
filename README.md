@@ -1,6 +1,8 @@
 # Uniswap10 Server
 
-Back end API for Uniswap10 - a customizeable index of liquid cryptoasets traded on [Uniswap](https://uniswap.io).
+Back end API for Uniswap10 - a customizeable index of cryptocurrencies traded on [Uniswap](https://uniswap.io). Track the top cryptocurrencies on the most popular decentralized exchange.
+
+Uniswap10 is an index representing the hypothetical investment performance of a liquidity-weighted allocation strategy. Get broad exposure to the DeFi ecosystem by following market trends. Customize the strategy parameters to fit your trading style.
 
 [Live Demo](https://uniswap10.now.sh)
 
@@ -46,6 +48,27 @@ Deploy to Heroku (must set up first): `yarn deploy` or `npm run deploy`
 
 Generate CSV file of Uniswap10 Index: `yarn csv` or `npm csv`
 
+## API
+
+`/api/index`
+
+Query params:
+
+**rp**
+
+- Strategy rebalance period
+- integer 1 - 365
+
+**lw**
+
+- Liquidity weight factor (0 = use volume only)
+- integer 0 - 1
+
+**c**
+
+- base currency
+- 'usd' or 'eth'
+
 ## Set up Heroku Deployment
 
 1. `heroku create`
@@ -61,3 +84,5 @@ Generate CSV file of Uniswap10 Index: `yarn csv` or `npm csv`
 6. `heroku config:set AV_API_KEY=<your API key>`
 
 7. `yarn deploy` or `npm run deploy`
+
+8. `heroku ps:scale web=1`
