@@ -43,6 +43,6 @@
     "migrate:production": "env SSL=true DATABASE_URL=$(heroku config:get DATABASE_URL) yarn migrate"
   },
   "engines": {
-    "node": "13.6.0"
+    "node": ">13.6.0"
   }
 }

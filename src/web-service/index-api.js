@@ -20,11 +20,11 @@ indexAPI.getAsync('/index', async (req, res) => {
   // default options
   const options = {
     top: 10,
-    period: 365,
+    lookbackPeriod: 365,
     liquidityWeight: 0.5,
     volumeWeight: 0.5,
     rebalancePeriod: 30,
-    weightDivisor: 100,
+    weightDivisor: 100
   };
 
   // rebalance period param (# days)
@@ -50,7 +50,7 @@ indexAPI.getAsync('/index', async (req, res) => {
     const pn = Number(req.query.p);
     if (isNaN(pn) || pn < 1 || pn > 365)
       return res.status(400).json({ error: 'invalid period' });
-    options.period = pn;
+    options.lookbackPeriod = pn;
   }
 
   // cache
@@ -62,13 +62,10 @@ indexAPI.getAsync('/index', async (req, res) => {
   }
   let result = {};
   if (cache.has(key)) {
-    console.log('Serving from cache');
     result = cache.get(key).result;
   } else {
-    console.log('Running backtest');
     result = await calcIndex(options);
     cache.set(key, { latestTimestamp, result });
-    console.log('Cached results: ' + cache.size);
   }
 
   const { indexETH, indexUSD, dates, tokens, weightsByAsset } = result;
@@ -99,7 +96,7 @@ indexAPI.getAsync('/index', async (req, res) => {
     index,
     weightsByAsset,
     dates,
-    tokens,
+    tokens
   });
 });
 

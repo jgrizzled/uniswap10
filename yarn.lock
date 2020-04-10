@@ -2490,7 +2490,7 @@ portfolio-analytics@^0.0.4:
 
 portfolio-tools@desert-defi/portfolio-tools:
   version "1.0.2"
-  resolved "https://codeload.github.com/desert-defi/portfolio-tools/tar.gz/5a16a31a5676073c92a47a3bf720a347c2f15741"
+  resolved "https://codeload.github.com/desert-defi/portfolio-tools/tar.gz/32cf42904d16fb9f7b07e7c0e04f30b5eb20770f"
   dependencies:
     csv-writer "^1.6.0"
     mathjs "^6.6.2"
