@@ -15,7 +15,7 @@
     "knex": "^0.20.10",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "pg": "^7.18.2",
     "portfolio-allocation": "^0.0.7",
     "portfolio-tools": "desert-defi/portfolio-tools",
